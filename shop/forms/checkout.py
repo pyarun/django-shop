@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model
-from django.forms import widgets, Media
+from django.forms import widgets, Media, fields
 from django.forms.utils import ErrorDict
 from django.utils.translation import gettext_lazy as _
-from djng.forms import fields
-from sass_processor.processor import sass_processor
+# from djng.forms import fields
+# from sass_processor.processor import sass_processor
 from shop.forms.base import DialogForm, DialogModelForm, UniqueEmailValidationMixin
 from shop.forms.widgets import CheckboxInput, RadioSelect, Select
 from shop.models.address import ShippingAddressModel, BillingAddressModel

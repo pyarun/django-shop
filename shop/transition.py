@@ -1,10 +1,11 @@
 from urllib.parse import urlparse
 
+from dbmail import send_db_mail
 from django.contrib.auth.models import AnonymousUser
 from django.db import models
 from django.http.request import HttpRequest
-from post_office import mail
-from post_office.models import EmailTemplate
+# from post_office import mail
+# from post_office.models import EmailTemplate
 from shop.conf import app_settings
 from shop.models.order import BaseOrder
 from shop.models.notification import Notification
@@ -67,15 +68,16 @@ def transition_change_notification(order):
             context['latest_delivery'] = DeliverySerializer(latest_delivery, context=render_context).data
         except (AttributeError, models.ObjectDoesNotExist):
             pass
-        try:
-            template = notification.mail_template.translated_templates.get(language=language)
-        except EmailTemplate.DoesNotExist:
-            template = notification.mail_template
+        # try:
+        #     template = notification.mail_template.translated_templates.get(language=language)
+        # except MailTemplate.DoesNotExist:
+        #     template = notification.mail_template
         attachments = {}
         for notiatt in notification.notificationattachment_set.all():
             attachments[notiatt.attachment.original_filename] = notiatt.attachment.file.file
-        mail.send(recipient, template=template, context=context,
-                  attachments=attachments, render_on_delivery=True)
+        # mail.send(recipient, template=template, context=context,
+        #           attachments=attachments, render_on_delivery=True)
+        send_db_mail(notification.mail_template.slug, recipient, context, attachments=attachments, use_celery=False)
         emails_in_queue = True
     if emails_in_queue:
         email_queued()

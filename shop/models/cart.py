@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from shop import deferred
+from shop.middleware import get_customer
 from shop.models.fields import JSONField
 from shop.models.customer import CustomerModel
 from shop.models.product import BaseProduct
@@ -154,6 +155,7 @@ class CartManager(models.Manager):
         """
         Return the cart for current customer.
         """
+        request.customer = get_customer(request)
         if request.customer.is_visitor:
             raise self.model.DoesNotExist("Cart for visiting customer does not exist.")
         if not hasattr(request, '_cached_cart') or request._cached_cart.customer.user_id != request.customer.user_id:
@@ -162,6 +164,7 @@ class CartManager(models.Manager):
 
     def get_or_create_from_request(self, request):
         has_cached_cart = hasattr(request, '_cached_cart')
+        request.customer = get_customer(request)
         if request.customer.is_visitor:
             request.customer = CustomerModel.objects.get_or_create_from_request(request)
             has_cached_cart = False

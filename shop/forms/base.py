@@ -1,20 +1,19 @@
-from formtools.wizard.views import normalize_name
+# from formtools.wizard.views import normalize_name
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.forms import widgets
+from django.forms import widgets, BaseForm, fields, BaseModelForm, ModelForm, Form
 from django.utils.encoding import force_str
-from django.utils.functional import cached_property
+from django.utils.functional import cached_property, classproperty
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-from cms.utils.helpers import classproperty
 
-from djng.forms import fields, NgModelFormMixin, NgFormValidationMixin
-from djng.styling.bootstrap3.forms import Bootstrap3Form, Bootstrap3ModelForm
+# from djng.forms import fields, NgModelFormMixin, NgFormValidationMixin
+# from djng.styling.bootstrap3.forms import Bootstrap3Form, Bootstrap3ModelForm
 
 
-class DialogFormMixin(NgModelFormMixin, NgFormValidationMixin):
+class DialogFormMixin():
     required_css_class = 'djng-field-required'
 
     def __init__(self, *args, **kwargs):
@@ -25,7 +24,8 @@ class DialogFormMixin(NgModelFormMixin, NgFormValidationMixin):
 
     @classproperty
     def form_name(cls):
-        return normalize_name(cls.__name__)
+        return cls.__name__
+        # return normalize_name(cls.__name__)
 
     def clean(self):
         cleaned_data = dict(super().clean())
@@ -73,7 +73,7 @@ class DialogFormMixin(NgModelFormMixin, NgFormValidationMixin):
         """
 
 
-class DialogForm(DialogFormMixin, Bootstrap3Form):
+class DialogForm(DialogFormMixin, Form):
     """
     Base class for all dialog forms used with a DialogFormPlugin.
     """
@@ -89,7 +89,7 @@ class DialogForm(DialogFormMixin, Bootstrap3Form):
     )
 
 
-class DialogModelForm(DialogFormMixin, Bootstrap3ModelForm):
+class DialogModelForm(DialogFormMixin, ModelForm):
     """
     Base class for all dialog model forms used with a DialogFormPlugin.
     """

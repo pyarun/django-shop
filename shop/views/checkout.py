@@ -7,7 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
-from cms.plugin_pool import plugin_pool
+# from cms.plugin_pool import plugin_pool
 from shop import messages
 from shop.conf import app_settings
 from shop.exceptions import ProductNotAvailable
@@ -28,19 +28,19 @@ class CheckoutViewSet(GenericViewSet):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.dialog_forms = set([import_string(fc) for fc in app_settings.SHOP_DIALOG_FORMS])
-        try:
-            from shop.cascade.plugin_base import DialogFormPluginBase
-        except ImproperlyConfigured:
-            # cmsplugins_cascade has not been installed
-            pass
-        else:
+        # try:
+        #     from shop.cascade.plugin_base import DialogFormPluginBase
+        # except ImproperlyConfigured:
+        #     # cmsplugins_cascade has not been installed
+        #     pass
+        # else:
             # gather form classes from Cascade plugins for our checkout views
-            for p in plugin_pool.get_all_plugins():
-                if issubclass(p, DialogFormPluginBase):
-                    if hasattr(p, 'form_classes'):
-                        self.dialog_forms.update([import_string(fc) for fc in p.form_classes])
-                    if hasattr(p, 'form_class'):
-                        self.dialog_forms.add(import_string(p.form_class))
+            # for p in plugin_pool.get_all_plugins():
+            #     if issubclass(p, DialogFormPluginBase):
+            #         if hasattr(p, 'form_classes'):
+            #             self.dialog_forms.update([import_string(fc) for fc in p.form_classes])
+            #         if hasattr(p, 'form_class'):
+            #             self.dialog_forms.add(import_string(p.form_class))
 
     @action(methods=['put'], detail=False, url_path='upload')
     def upload(self, request):

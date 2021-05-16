@@ -30,7 +30,7 @@ class ExtraCartRowList(serializers.Serializer):
 
 
 class BaseItemSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(lookup_field='pk', view_name='shop:cart-detail')
+    url = serializers.HyperlinkedIdentityField(lookup_field='pk', view_name='rest:cart-detail')
     unit_price = MoneyField()
     line_total = MoneyField()
     summary = serializers.SerializerMethodField(

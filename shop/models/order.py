@@ -84,19 +84,20 @@ class OrderManager(models.Manager):
         """
         Returns the URL of the page with the list view for all orders related to the current customer
         """
-        if not hasattr(self, '_summary_url'):
-            try:  # via CMS pages
-                page = Page.objects.public().get(reverse_id='shop-order')
-            except Page.DoesNotExist:
-                page = Page.objects.public().filter(application_urls='OrderApp').first()
-            if page:
-                self._summary_url = page.get_absolute_url()
-            else:
-                try:  # through hardcoded urlpatterns
-                    self._summary_url = reverse('shop-order')
-                except NoReverseMatch:
-                    self._summary_url = '/cms-page_or_view_with__reverse_id=shop-order__does_not_exist/'
-        return self._summary_url
+        # if not hasattr(self, '_summary_url'):
+        #     try:  # via CMS pages
+        #         page = Page.objects.public().get(reverse_id='shop-order')
+        #     except Page.DoesNotExist:
+        #         page = Page.objects.public().filter(application_urls='OrderApp').first()
+        #     if page:
+        #         self._summary_url = page.get_absolute_url()
+        #     else:
+        #         try:  # through hardcoded urlpatterns
+        #             self._summary_url = reverse('shop-order')
+        #         except NoReverseMatch:
+        #             self._summary_url = '/cms-page_or_view_with__reverse_id=shop-order__does_not_exist/'
+        # return self._summary_url
+        return {}
 
 
 class WorkflowMixinMetaclass(deferred.ForeignKeyBuilder):

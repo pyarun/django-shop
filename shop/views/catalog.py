@@ -17,7 +17,7 @@ from rest_framework.renderers import BrowsableAPIRenderer
 from rest_framework.response import Response
 from rest_framework.utils.urls import replace_query_param
 
-from cms.views import details
+# from cms.views import details
 
 from shop.conf import app_settings
 from shop.models.product import ProductModel

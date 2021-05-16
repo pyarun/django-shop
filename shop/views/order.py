@@ -7,6 +7,8 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.renderers import BrowsableAPIRenderer
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import BasePermission
+
+from shop.middleware import get_customer
 from shop.rest.money import JSONRenderer
 from shop.rest.renderers import CMSPageRenderer
 from shop.serializers.order import OrderListSerializer, OrderDetailSerializer
@@ -23,6 +25,7 @@ class OrderPermission(BasePermission):
     Allow access to a given Order if the user is entitled to.
     """
     def has_permission(self, request, view):
+        request.customer = get_customer(request)
         if view.many and request.customer.is_visitor:
             detail = _("Only signed in customers can view their list of orders.")
             raise PermissionDenied(detail=detail)

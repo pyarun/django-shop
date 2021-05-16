@@ -18,7 +18,7 @@ from rest_auth.views import LoginView as OriginalLoginView, PasswordChangeView a
 from shop.models.cart import CartModel
 from shop.models.customer import CustomerModel
 from shop.rest.renderers import CMSPageRenderer
-from shop.serializers.auth import PasswordResetRequestSerializer, PasswordResetConfirmSerializer
+from shop.serializers.auth import PasswordResetConfirmSerializer #PasswordResetRequestSerializer,
 from shop.signals import email_queued
 
 
@@ -126,35 +126,35 @@ class PasswordChangeView(OriginalPasswordChangeView):
         return Response({self.form_name: serializer.errors}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 
-class PasswordResetRequestView(GenericAPIView):
-    """
-    Calls Django Auth PasswordResetRequestForm save method.
-
-    Accepts the following POST parameters: email
-    Returns the success/fail message.
-    """
-    serializer_class = PasswordResetRequestSerializer
-    permission_classes = (AllowAny,)
-    form_name = 'password_reset_request_form'
-
-    def post(self, request, *args, **kwargs):
-        form_data = request.data.get('form_data', {})
-        serializer = self.get_serializer(data=form_data)
-        if not serializer.is_valid():
-            return Response({self.form_name: serializer.errors}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
-
-        # send email containing a reset link
-        serializer.save()
-
-        # trigger async email queue
-        email_queued()
-
-        # Return the success message with OK HTTP status
-        msg = _("Instructions on how to reset the password have been sent to '{email}'.")
-        response_data = {self.form_name: {
-            'success_message': msg.format(**serializer.data),
-        }}
-        return Response(response_data)
+# class PasswordResetRequestView(GenericAPIView):
+#     """
+#     Calls Django Auth PasswordResetRequestForm save method.
+#
+#     Accepts the following POST parameters: email
+#     Returns the success/fail message.
+#     """
+#     serializer_class = PasswordResetRequestSerializer
+#     permission_classes = (AllowAny,)
+#     form_name = 'password_reset_request_form'
+#
+#     def post(self, request, *args, **kwargs):
+#         form_data = request.data.get('form_data', {})
+#         serializer = self.get_serializer(data=form_data)
+#         if not serializer.is_valid():
+#             return Response({self.form_name: serializer.errors}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+#
+#         # send email containing a reset link
+#         serializer.save()
+#
+#         # trigger async email queue
+#         email_queued()
+#
+#         # Return the success message with OK HTTP status
+#         msg = _("Instructions on how to reset the password have been sent to '{email}'.")
+#         response_data = {self.form_name: {
+#             'success_message': msg.format(**serializer.data),
+#         }}
+#         return Response(response_data)
 
 
 class PasswordResetConfirmView(GenericAPIView):

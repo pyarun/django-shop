@@ -15,8 +15,8 @@ class ShopConfig(AppConfig):
         from shop.deferred import ForeignKeyBuilder
         from shop.models.fields import JSONField
         from shop.rest.fields import JSONSerializerField
-        from shop.patches import PageAttribute
-        from cms.templatetags import cms_tags
+        # from shop.patches import PageAttribute
+        # from cms.templatetags import cms_tags
 
         # add JSONField to the map of customized serializers
         ModelSerializer.serializer_field_mapping[JSONField] = JSONSerializerField
@@ -24,7 +24,7 @@ class ShopConfig(AppConfig):
         # perform some sanity checks
         ForeignKeyBuilder.check_for_pending_mappings()
 
-        cms_tags.register.tags['page_attribute'] = PageAttribute
+        # cms_tags.register.tags['page_attribute'] = PageAttribute
 
         if callable(getattr(cache, 'delete_pattern', None)):
             self.cache_supporting_wildcard = True

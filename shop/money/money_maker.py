@@ -2,7 +2,7 @@ from decimal import Decimal, InvalidOperation
 from django.conf import settings
 from django.utils.formats import get_format
 from django.utils.translation import get_language
-from cms.utils.helpers import classproperty
+from django.utils.functional import classproperty
 from shop.conf import app_settings
 from shop.money.iso4217 import CURRENCIES
 

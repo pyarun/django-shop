@@ -3,6 +3,9 @@
 **Django-SHOP** aims to be a the easy, fun and fast e-commerce counterpart to
 [django-CMS](https://www.django-cms.org/).
 
+This **FORK** is modified to remove **django-CMS** dependencies and simply provide rest APIs to be used
+with Angular/React like frontend.
+
 [![Build Status](https://travis-ci.org/awesto/django-shop.svg?branch=master)](https://travis-ci.org/awesto/django-shop?branch=master)
 [![PyPI version](https://img.shields.io/pypi/v/django-shop.svg)](https://pypi.python.org/pypi/django-shop)
 [![Python versions](https://img.shields.io/pypi/pyversions/django-shop.svg)](https://pypi.python.org/pypi/django-shop)

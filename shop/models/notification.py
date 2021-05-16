@@ -1,9 +1,10 @@
+from dbmail.models import MailTemplate
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
-from post_office.models import EmailTemplate
-from filer.fields.file import FilerFileField
+# from post_office.models import EmailTemplate
+# from filer.fields.file import FilerFileField
 from shop.conf import app_settings
 from shop.models.fields import ChoiceEnum, ChoiceEnumField
 
@@ -43,10 +44,10 @@ class Notification(models.Model):
     )
 
     mail_template = models.ForeignKey(
-        EmailTemplate,
+        MailTemplate,
         on_delete=models.CASCADE,
         verbose_name=_("Template"),
-        limit_choices_to=Q(language__isnull=True) | Q(language=''),
+        # limit_choices_to=Q(language__isnull=True) | Q(language=''),
     )
 
     class Meta:
@@ -75,12 +76,12 @@ class NotificationAttachment(models.Model):
         on_delete=models.CASCADE,
     )
 
-    attachment = FilerFileField(
-        on_delete=models.SET_NULL,
-        related_name='email_attachment',
-        null=True,
-        blank=True,
-    )
+    # attachment = FilerFileField(
+    #     on_delete=models.SET_NULL,
+    #     related_name='email_attachment',
+    #     null=True,
+    #     blank=True,
+    # )
 
     class Meta:
         app_label = 'shop'

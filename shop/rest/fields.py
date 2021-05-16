@@ -13,7 +13,7 @@ class OrderedDictField(serializers.Field):
         return OrderedDict(data)
 
 
-class JSONSerializerField(serializers.Field):
+class JSONSerializerField(serializers.JSONField):
     """
     Serializer field which transparently bypasses its object instead of serializing/deserializing.
     """
